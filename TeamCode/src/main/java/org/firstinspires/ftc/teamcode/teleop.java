@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Canvas;
-import android.util.Size;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.RobotClasses.ModuleControllers.MG996RController;
 import org.firstinspires.ftc.teamcode.RobotClasses.Others.Intake;
 import org.firstinspires.ftc.teamcode.RobotClasses.Turret.TurretController;
@@ -55,6 +49,7 @@ public class teleop extends OpMode {
 
         robotController = new RobotController();
         robotController.init(hardwareMap, gamepad1);
+
 
     }
 

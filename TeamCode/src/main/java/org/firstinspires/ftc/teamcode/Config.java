@@ -54,4 +54,9 @@ public class Config {
     // Intake related variables
     public static final String INTAKE_MOTOR_NAME = "intakeMotor";
 
+    // Indexer related variables
+    public static  final String INDEXER_SERVO_NAME = "indexerServo";
+    public static final String INDEXER_SENSOR_NAME = "indexerSensor";
+    public static final double DURATION_PER_SIDE = 1;
+
 }

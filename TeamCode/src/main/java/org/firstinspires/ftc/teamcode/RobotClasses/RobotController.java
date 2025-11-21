@@ -77,10 +77,6 @@ public class RobotController {
         double x = (gamepad.right_trigger - gamepad.left_trigger) * 1.1;
         double rx = gamepad.left_stick_x; // Rotation
 
-        if (Math.abs(gamepad.right_stick_x) <= Config.DEAD_ZONE) {
-            rx = 0;
-        }
-
         double theta = Math.atan2(y,x);
         double power = Math.hypot(x,y);
 

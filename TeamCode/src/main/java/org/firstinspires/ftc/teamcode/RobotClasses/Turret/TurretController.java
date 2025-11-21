@@ -68,7 +68,7 @@ public class TurretController {
             unKick();
         }
 
-        if (gamepad.right_bumper) {
+        if (gamepad.x) {
             if (!state) {
                 shootingMotorSpeed = 1.0;
                 state = true;
