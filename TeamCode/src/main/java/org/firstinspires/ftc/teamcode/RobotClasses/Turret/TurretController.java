@@ -18,6 +18,8 @@ public class TurretController {
     Servo shootingServo;
     ElapsedTime timer = new ElapsedTime();
 
+    int count = 0;
+
     double swingPower = 0.5;
     double shootingMotorSpeed = 0.0;
 
@@ -93,7 +95,7 @@ public class TurretController {
 
         updateControls(gamepad, range);
 
-        if (xyhv != null) {
+        if (xyhv != null) {  //trun to lock on the target
             telemetry.addData("x    :   ", xyhv[0]);
             telemetry.addData("y    :   ", xyhv[1]);
             telemetry.addData("r    :   ", xyhv[4]);
@@ -110,17 +112,29 @@ public class TurretController {
                 telemetry.addLine("-1");
                 MOTOR.setPower(-calculateSpeed(xyhv));
             }
+
+            // add launch autories on screen
         }
         else {
-            telemetry.addLine("No tag detected");
+
+            telemetry.addLine("No tag detected"); //no detection
             int currentMotorPosition = MOTOR.getCurrentPosition();
 
-            if (currentMotorPosition >= 100) {
+            if (currentMotorPosition >= 1400 || currentMotorPosition <= -1400){
+                count++;
+            }
+
+            if (currentMotorPosition <= 1400 && count % 2 == 0) { //turn on the min side
                 MOTOR.setPower(0.5);
             }
-            else {
+            else if (currentMotorPosition >= -1400 && count % 2 != 0){ //turn on the max side
                 MOTOR.setPower(-0.5);
             }
+            else{
+                MOTOR.setPower(0);
+            }
+
+
 
             telemetry.addData("encoder position: ", currentMotorPosition);
             telemetry.addData("motor power: ", MOTOR.getPower());
