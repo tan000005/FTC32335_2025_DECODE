@@ -295,6 +295,45 @@ public class RobotController {
         RearLeftMotor.setPower(0);
     }
 
+    public void strafeRight(double distance) {
+
+        FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RearRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RearLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int targetPosition = (int)((ticksPerWheelRev/12.0)*distance);
+
+        FrontRightMotor.setTargetPosition(targetPosition);
+        FrontLeftMotor.setTargetPosition(-targetPosition);
+        RearRightMotor.setTargetPosition(-targetPosition);
+        RearLeftMotor.setTargetPosition(targetPosition);
+
+        FrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RearRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RearLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FrontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        RearRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        FrontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        RearLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        while (FrontRightMotor.isBusy() || FrontLeftMotor.isBusy() || RearRightMotor.isBusy() || RearLeftMotor.isBusy()) {
+            double power = getPower(targetPosition)*0.6;
+
+            FrontRightMotor.setPower(-power);
+            FrontLeftMotor.setPower(power);
+            RearRightMotor.setPower(-power);
+            RearLeftMotor.setPower(power);
+
+        }
+
+        FrontRightMotor.setPower(0);
+        FrontLeftMotor.setPower(0);
+        RearRightMotor.setPower(0);
+        RearLeftMotor.setPower(0);
+    }
     public void turnDegrees(int degrees) {
 
         double arc_length = ((double)degrees / 360.0) * turnCircumference;

@@ -25,6 +25,7 @@ public class TurretController {
 
     public TurretController(HardwareMap hardwareMap) {
 
+
         this.MOTOR = hardwareMap.get(DcMotor.class, Config.turretMotorName);
         this.MOTOR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.MOTOR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -55,6 +56,8 @@ public class TurretController {
     public void shoot() {
         SHOOTING_MOTOR.setPower(shootingMotorSpeed);
     }
+
+    public void autoShoot(double speed) { SHOOTING_MOTOR.setPower(speed); }
 
     public double calculateMotorPower(double range) {
         return (range/100);
@@ -94,6 +97,9 @@ public class TurretController {
         updateControls(gamepad, range);
 
         if (xyhv != null) {
+
+            timer.reset();
+
             telemetry.addData("x    :   ", xyhv[0]);
             telemetry.addData("y    :   ", xyhv[1]);
             telemetry.addData("r    :   ", xyhv[4]);
@@ -112,44 +118,85 @@ public class TurretController {
             }
         }
         else {
-            telemetry.addLine("No tag detected");
-            int currentMotorPosition = MOTOR.getCurrentPosition();
 
-            if (currentMotorPosition >= 100) {
-                MOTOR.setPower(0.5);
+            if (timer.seconds() > 1) {
+
+                telemetry.addLine("No tag detected");
+                int currentMotorPosition = MOTOR.getCurrentPosition();
+
+                if (currentMotorPosition >= 100) {
+                    MOTOR.setPower(0.5);
+                } else {
+                    MOTOR.setPower(-0.5);
+                }
+
+                telemetry.addData("encoder position: ", currentMotorPosition);
+                telemetry.addData("motor power: ", MOTOR.getPower());
+
+            } else {
+                telemetry.addLine("Waiting for delzy to be over");
             }
-            else {
-                MOTOR.setPower(-0.5);
-            }
-
-            telemetry.addData("encoder position: ", currentMotorPosition);
-            telemetry.addData("motor power: ", MOTOR.getPower());
-
         }
     }
 
-    /*
-    public void update(double[] xyhv, Telemetry telemetry) {
+    public void autoUpdate(double[] xyhv, Telemetry telemetry) {
 
-        telemetry.addLine("TESTING SWING ONLY");
-        int currentMotorPosition = MOTOR.getCurrentPosition();
+        if (xyhv != null) {
 
-        // Check if we hit the "right" limit (100)
-        if (currentMotorPosition >= Config.TURRET_IDLE_TICKS) {
-            swingPower = -0.3; // Reverse to swing left
+            timer.reset();
+
+            telemetry.addData("x    :   ", xyhv[0]);
+            telemetry.addData("y    :   ", xyhv[1]);
+            telemetry.addData("r    :   ", xyhv[4]);
+
+            angleAdjustServo.updatePosition(xyhv[4]);
+
+            MOTOR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            if (xyhv[0] < -Config.TURRET_DEADZONE) {
+                telemetry.addLine("1");
+                MOTOR.setPower(-calculateSpeed(xyhv));
+            } else {
+                telemetry.addLine("-1");
+                MOTOR.setPower(-calculateSpeed(xyhv));
+            }
         }
-        // Check if we hit the "left" limit (-100)
-        else if (currentMotorPosition <= -Config.TURRET_IDLE_TICKS) {
-            swingPower = 0.3;  // Reverse to swing right
+        else {
+
+            if (timer.seconds() > 1) {
+
+                telemetry.addLine("No tag detected");
+                int currentMotorPosition = MOTOR.getCurrentPosition();
+
+                if (currentMotorPosition >= Config.TURRET_IDLE_TICKS) {
+                    MOTOR.setPower(0.5);
+                } else {
+                    MOTOR.setPower(-0.5);
+                }
+
+                telemetry.addData("encoder position: ", currentMotorPosition);
+                telemetry.addData("motor power: ", MOTOR.getPower());
+
+            } else {
+                telemetry.addLine("Waiting for delzy to be over");
+            }
         }
-
-        // Apply the current swing power
-        MOTOR.setPower(swingPower);
-
-        telemetry.addData("encoder position: ", currentMotorPosition);
-        telemetry.addData("motor power: ", MOTOR.getPower());
     }
-    */
+
+    public void turnTurretAround(int offset) {
+        MOTOR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MOTOR.setTargetPosition(440+offset);
+        MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        MOTOR.setPower(0.5);
+    }
+
+    public void turnTurret45(int offset) {
+        MOTOR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        MOTOR.setTargetPosition(220+offset);
+        MOTOR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        MOTOR.setPower(0.5);
+    }
+
     public double calculateSpeed(double[] xyhv) {
         double error = xyhv[0];
         double servoPower = Config.KP * error/20;

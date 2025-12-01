@@ -18,7 +18,7 @@ public class Intake {
     }
 
     public void start() {
-        intakeMotor.setPower(1);
+        intakeMotor.setPower(.6);
     }
 
     public void stop() {
@@ -26,8 +26,10 @@ public class Intake {
     }
 
     public void reverse() {
-        intakeMotor.setPower(-1);
+        intakeMotor.setPower(-0.6);
     }
+
+    public void launch() { intakeMotor.setPower(1); }
 
     public void updateIntake(Gamepad gamepad) {
         if (gamepad.right_bumper) {

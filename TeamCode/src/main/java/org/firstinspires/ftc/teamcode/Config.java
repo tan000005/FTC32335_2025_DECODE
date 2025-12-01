@@ -10,27 +10,14 @@ public class Config {
 
     public static final double MaxDriveSpeed = 0.9;
     public static final double RAMP_RATE = 0.05;
-    public static final double DEAD_ZONE = 0.1;
 
     // April tag related variables
     public static final String webcamName = "Webcam 1";
-    public static final double aprilTagSize = 16.0;                                         // Size in cm
+    public static final double aprilTagSize = 16.0; // Size in cm
 
-    public static final int[] APRIL_TAGS_TO_TRACK = {21,22,23};
     public static final double TURRET_DEADZONE = 0;
 
-    public static final double TURRET_SENSIIVITY = 12.0;
     public static final double KP = 0.05;
-
-    // Lens intrinsics
-    public static final double fx = 1434.36;
-    public static final double fy = 1434.36;
-    public static final double cx = 988.933;
-    public static final double cy = 558.369;
-
-    // MG996R Constraints
-    public static final double MG996RANGE_MIN = 0.1;
-    public static final double MG996RANGE_MAX = 0.9;
 
     // Example code
     public static final String angleAdjustServoName = "AngleAdjuster";
@@ -49,14 +36,9 @@ public class Config {
     public static final int    ACCELERATION_DISTANCE = 200;
     public static final int    DECELERATION_DISTANCE = 200;
     public static final double AUTO_MAX_SPEED = 0.5;
-    public static final double TURRET_IDLE_TICKS = 800;
+    public static final double TURRET_IDLE_TICKS = 100;
 
     // Intake related variables
     public static final String INTAKE_MOTOR_NAME = "intakeMotor";
-
-    // Indexer related variables
-    public static  final String INDEXER_SERVO_NAME = "indexerServo";
-    public static final String INDEXER_SENSOR_NAME = "indexerSensor";
-    public static final double DURATION_PER_SIDE = 1;
 
 }

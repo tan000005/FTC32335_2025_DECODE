@@ -27,7 +27,6 @@ public class teleop extends OpMode {
     private VisionProcessing visionProcessor;
     private RobotController robotController;
 
-    MG996RController turretServo;
     TurretController turret;
     Intake intake;
 
@@ -60,8 +59,6 @@ public class teleop extends OpMode {
         turret.update(visionProcessor.getTagDataBySpecificId(23), telemetry, gamepad1);
         robotController.updatePosition();
         intake.updateIntake(gamepad1);
-
-        telemetry.addData("Controller x : ", gamepad1.right_stick_x);
 
     }
 
