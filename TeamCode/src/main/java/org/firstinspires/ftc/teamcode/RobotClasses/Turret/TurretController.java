@@ -28,6 +28,7 @@ public class TurretController {
     double shootingMotorSpeed = 0.0;
 
     boolean state = false;
+    boolean lastX = false;
 
     public TurretController(HardwareMap hardwareMap) {
 
@@ -77,7 +78,7 @@ public class TurretController {
             unKick();
         }
 
-        if (gamepad.x) {
+        if (gamepad.x && !lastX) {
             if (!state) {
                 shootingMotorSpeed = -1.0;
                 state = true;
@@ -86,6 +87,8 @@ public class TurretController {
                 state = false;
             }
         }
+
+        lastX = gamepad.x;
 
     }
 
