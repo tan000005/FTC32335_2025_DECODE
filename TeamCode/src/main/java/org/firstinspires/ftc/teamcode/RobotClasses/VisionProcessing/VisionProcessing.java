@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.RobotClasses.VisionProcessing;
 
+import android.annotation.SuppressLint;
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class VisionProcessing {
     private AprilTagProcessor aprilTagProcessor;
-    private VisionPortal visionPortal;
+    public VisionPortal visionPortal;
     private List<AprilTagDetection> detectionTags = new ArrayList<>();
 
     private Telemetry telemetry;
@@ -31,9 +32,11 @@ public class VisionProcessing {
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
+                .setSuppressCalibrationWarnings(true)
                 .build();
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hwMap.get(WebcamName.class,"Webcam 1"));
+        builder.setStreamFormat(VisionPortal.StreamFormat.MJPEG);
         builder.setCameraResolution(new Size(1920,1080));
         builder.addProcessor(aprilTagProcessor);
 
@@ -48,6 +51,7 @@ public class VisionProcessing {
         return detectionTags;
     }
 
+    @SuppressLint("DefaultLocale")
     public void displayDetectionTelemetry(AprilTagDetection detectionId) {
         if (detectionId == null) {return;}
 
@@ -56,6 +60,7 @@ public class VisionProcessing {
             telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (cm)", detectionId.ftcPose.x, detectionId.ftcPose.y, detectionId.ftcPose.z));
             telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detectionId.ftcPose.pitch, detectionId.ftcPose.roll, detectionId.ftcPose.yaw));
             telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (cm, deg, deg)", detectionId.ftcPose.range, detectionId.ftcPose.bearing, detectionId.ftcPose.elevation));
+            telemetry.addLine(String.format("fps: %6.1f", visionPortal.getFps()));
         } else {
             telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectionId.id));
             telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectionId.center.x, detectionId.center.y));
@@ -66,6 +71,7 @@ public class VisionProcessing {
     {
         for(AprilTagDetection detection : detectionTags){
             if (detection.id == id){
+                displayDetectionTelemetry(detection);
                 return new double[] {detection.ftcPose.x,
                         detection.ftcPose.y,
                         detection.ftcPose.pitch,

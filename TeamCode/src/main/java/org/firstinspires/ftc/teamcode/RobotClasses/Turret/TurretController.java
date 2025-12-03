@@ -9,10 +9,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Config;
 
+import org.firstinspires.ftc.teamcode.RobotClasses.VisionProcessing.VisionProcessing;
+import org.firstinspires.ftc.vision.VisionPortal;
+
+
 public class TurretController {
 
     DcMotor MOTOR;
     DcMotor SHOOTING_MOTOR;
+
+    int count = 0;
 
     AngleAdjustServo angleAdjustServo;
     Servo shootingServo;
@@ -73,16 +79,12 @@ public class TurretController {
 
         if (gamepad.x) {
             if (!state) {
-                shootingMotorSpeed = 1.0;
+                shootingMotorSpeed = -1.0;
                 state = true;
             } else {
                 shootingMotorSpeed = 0.0;
                 state = false;
             }
-        }
-
-        if (gamepad.x) {
-            kick();
         }
 
     }
@@ -124,10 +126,17 @@ public class TurretController {
                 telemetry.addLine("No tag detected");
                 int currentMotorPosition = MOTOR.getCurrentPosition();
 
-                if (currentMotorPosition >= 100) {
+                if (currentMotorPosition >= 1400 || currentMotorPosition <= -1400) {
+                    count++;
+                }
+
+                if (currentMotorPosition <= 1400 && count % 2 == 0) {
                     MOTOR.setPower(0.5);
-                } else {
+                }
+                else if (currentMotorPosition >= -1400 && count % 2 != 0) {
                     MOTOR.setPower(-0.5);
+                } else {
+                    MOTOR.setPower(0);
                 }
 
                 telemetry.addData("encoder position: ", currentMotorPosition);
