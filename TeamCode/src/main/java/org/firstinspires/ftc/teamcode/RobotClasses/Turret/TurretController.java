@@ -80,10 +80,10 @@ public class TurretController {
 
         if (gamepad.x && !lastX) {
             if (!state) {
-                shootingMotorSpeed = -1.0;
+                shootingMotorSpeed = -0.5;
                 state = true;
             } else {
-                shootingMotorSpeed = 0.0;
+                shootingMotorSpeed = 0.5;
                 state = false;
             }
         }
@@ -124,6 +124,10 @@ public class TurretController {
         }
         else {
 
+            MOTOR.setPower(0);
+
+            /*
+
             if (timer.seconds() > 1) {
 
                 telemetry.addLine("No tag detected");
@@ -148,6 +152,7 @@ public class TurretController {
             } else {
                 telemetry.addLine("Waiting for delzy to be over");
             }
+             */
         }
     }
 
