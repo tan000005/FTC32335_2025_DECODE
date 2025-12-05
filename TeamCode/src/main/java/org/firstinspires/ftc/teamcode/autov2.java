@@ -67,7 +67,7 @@ public class autov2 extends LinearOpMode {
         robotController.turnTo(135);
         sleep(100);
         // strafe into position
-        robotController.strafeLeft(50);
+        robotController.strafeRight(50);
         sleep(100);
         // move forwards to collect the balls
         robotController.moveForward(100);
@@ -79,7 +79,7 @@ public class autov2 extends LinearOpMode {
         sleep(1000);
         intake.start(); // reset intake to normal speed
         // strafe into position for the next ball
-        robotController.strafeLeft(50);
+        robotController.strafeRight(50);
         sleep(100);
         // move forward to collect balls
         robotController.moveForward(80);
@@ -92,7 +92,7 @@ public class autov2 extends LinearOpMode {
         sleep(1000);
         intake.start();
         //strafe into next position
-        robotController.strafeLeft(50);
+        robotController.strafeRight(50);
         sleep(100);
         // move foward to collect balls
         robotController.moveForward(80);
@@ -101,9 +101,6 @@ public class autov2 extends LinearOpMode {
         robotController.moveBackward(100);
         sleep(100);
         // shoot
-        intake.launch();
-        sleep(1000);
-        intake.start();
 
     }
 

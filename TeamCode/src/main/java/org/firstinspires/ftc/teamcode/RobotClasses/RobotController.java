@@ -174,6 +174,8 @@ public class RobotController {
 
     public void moveForward(double distance) {
 
+        distance = distance / 2.54;
+
         FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -216,6 +218,8 @@ public class RobotController {
 
     public void moveBackward(double distance) {
 
+        distance = distance / 2.54;
+
         FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -238,6 +242,19 @@ public class RobotController {
         FrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         RearLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        FrontRightMotor.setPower(0.8);
+        RearRightMotor.setPower(0.8);
+        FrontLeftMotor.setPower(0.8);
+        RearLeftMotor.setPower(0.8);
+
+        while (FrontRightMotor.isBusy() || FrontLeftMotor.isBusy() || RearRightMotor.isBusy() || RearLeftMotor.isBusy()) {
+            // Optional: Telemetry to debug
+            // telemetry.addData("Target", targetPosition);
+            // telemetry.addData("Current", FrontLeftMotor.getCurrentPosition());
+            // telemetry.update();
+        }
+
+        /*
         while (FrontRightMotor.isBusy() || FrontLeftMotor.isBusy() || RearRightMotor.isBusy() || RearLeftMotor.isBusy()) {
             double power = getPower(targetPosition);
 
@@ -247,6 +264,7 @@ public class RobotController {
             RearLeftMotor.setPower(power);
 
         }
+         */
 
         FrontRightMotor.setPower(0);
         FrontLeftMotor.setPower(0);

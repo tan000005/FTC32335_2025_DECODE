@@ -36,8 +36,8 @@ public class VisionProcessing {
                 .build();
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hwMap.get(WebcamName.class,"Webcam 1"));
-        //builder.setStreamFormat(VisionPortal.StreamFormat.MJPEG);
-        builder.setCameraResolution(new Size(1920,1080));
+        builder.setStreamFormat(VisionPortal.StreamFormat.MJPEG);
+        builder.setCameraResolution(new Size(1280,720));
         builder.addProcessor(aprilTagProcessor);
 
         visionPortal = builder.build();

@@ -56,7 +56,7 @@ public class teleop extends OpMode {
     public void loop() {
 
         visionProcessor.update();
-        turret.update(visionProcessor.getTagDataBySpecificId(23), telemetry, gamepad1);
+        turret.update(visionProcessor.getTagDataBySpecificId(20), telemetry, gamepad1);
         robotController.updatePosition();
         intake.updateIntake(gamepad1);
 

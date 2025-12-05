@@ -70,6 +70,14 @@ public class TurretController {
         return (range/100);
     }
 
+    public void turnTurretRight() {
+        MOTOR.setPower(-0.9);
+    }
+
+    public void turnTurretLeft() {
+        MOTOR.setPower(0.9);
+    }
+
     public void updateControls(Gamepad gamepad, double range) {
 
         shoot();
@@ -80,12 +88,18 @@ public class TurretController {
 
         if (gamepad.x && !lastX) {
             if (!state) {
-                shootingMotorSpeed = -0.5;
+                shootingMotorSpeed = -1;
                 state = true;
             } else {
-                shootingMotorSpeed = 0.5;
+                shootingMotorSpeed = 0;
                 state = false;
             }
+        }
+
+        if (gamepad.left_bumper) {
+            turnTurretLeft();
+        } else if (gamepad.right_bumper) {
+            turnTurretRight();
         }
 
         lastX = gamepad.x;
@@ -109,22 +123,27 @@ public class TurretController {
             telemetry.addData("y    :   ", xyhv[1]);
             telemetry.addData("r    :   ", xyhv[4]);
 
-            angleAdjustServo.updatePosition(xyhv[4]);
+            angleAdjustServo.updatePosition(xyhv[4],telemetry);
 
             MOTOR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            if (xyhv[0] < -Config.TURRET_DEADZONE) {
-                //MOTOR.setPower(1);
-                telemetry.addLine("1");
-                MOTOR.setPower(-calculateSpeed(xyhv));
+            if (gamepad.right_bumper || gamepad.left_bumper) {
+                telemetry.addLine("Overidden turret tracking");
             } else {
-                telemetry.addLine("-1");
-                MOTOR.setPower(-calculateSpeed(xyhv));
+                if (xyhv[0] < -Config.TURRET_DEADZONE) {
+                    //MOTOR.setPower(1);
+                    telemetry.addLine("1");
+                    MOTOR.setPower(-calculateSpeed(xyhv) * 1.5);
+                } else {
+                    telemetry.addLine("-1");
+                    MOTOR.setPower(-calculateSpeed(xyhv) * 1.5);
+                }
             }
         }
         else {
 
             MOTOR.setPower(0);
+            telemetry.addLine("No data");
 
             /*
 
@@ -166,7 +185,7 @@ public class TurretController {
             telemetry.addData("y    :   ", xyhv[1]);
             telemetry.addData("r    :   ", xyhv[4]);
 
-            angleAdjustServo.updatePosition(xyhv[4]);
+            angleAdjustServo.updatePosition(xyhv[4], telemetry);
 
             MOTOR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

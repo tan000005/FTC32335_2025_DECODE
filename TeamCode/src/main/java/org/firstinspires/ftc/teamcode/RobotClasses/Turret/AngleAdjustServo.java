@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Config;
 import org.firstinspires.ftc.teamcode.RobotClasses.ModuleControllers.DefaultServoController;
 
@@ -19,17 +20,27 @@ public class AngleAdjustServo {
         Servo servoName = hardwareMap.get(Servo.class, Config.angleAdjustServoName); // get the servo name and pass the servo name that we want from the config file
         servo = new DefaultServoController(servoName);
 
-        servo.setServoPosition(angleAdjust); // set servo position to zero
+        servo.setServoPosition(0); // set servo position to zero
     }
 
-    public void updatePosition(double range) {
+    public void updatePosition(double range, Telemetry telemetry) {
 
         if (range < 0)                                                               // if no tag is found (range = -1) then set it to default position
             servo.setServoPosition(Config.defaultShooterServoAngle+angleAdjust); // set to default pos (45 deg) and then add the angle adjustment to it (20 deg)
         else {
 
-            angle = range*0.0714;               // 5064 mm for the longest distance, 420 cm = 30 deg
-            servo.setServoPosition((int)angle); // convert angle to an int and pass it to the servo so it turns
+            telemetry.addLine("Aiming");
+
+            telemetry.addData("angle: ", angle);
+
+            angle = 120-((range-40)*2);
+
+            if (range < 38) {
+                servo.setServoPosition(0);
+            } else {
+                servo.setServoPosition((int)(angle));
+                //servo.setServoPosition((int)(angle)*2);
+            }
 
         }
 
