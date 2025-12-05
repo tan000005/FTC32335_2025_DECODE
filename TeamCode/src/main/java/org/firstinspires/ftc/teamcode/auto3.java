@@ -28,22 +28,35 @@ public class auto3 extends LinearOpMode {
 
         waitForStart();
 
-        turretController.autoShoot(-1);
+        //turretController.autoShoot(-1);
 
         // backwards
         robotController.moveForward(100);
-        sleep(100);
+        //sleep(100);
         robotController.turnTo(180);
-        sleep(100);
+        //sleep(100);
         intake.autoShoot();
-
-        /*
+        //sleep(100);
         robotController.turnTo(-40);
-        sleep(100);
-        // start intake
-        sleep(100);
-        robotController.moveForward(50);
-        sleep(100);
+        //sleep(100);
+        robotController.strafeRight(13);
+        intake.reverse();
+        //sleep(100);
+        robotController.moveForward(80);
+        //sleep(100);
+        robotController.moveBackward(80);
+        intake.stop();
+        //sleep(100);
+        robotController.turnTo(50);
+        //sleep(100);
+        intake.autoShoot();
+        //sleep(100);
+        robotController.turnTo(-35);
+        //sleep(100);
+        robotController.strafeRight(55);
+        intake.reverse();
+        robotController.moveForward(80);
+        /*
         robotController.moveBackward(50);
         sleep(100);
         // recenter and shoot

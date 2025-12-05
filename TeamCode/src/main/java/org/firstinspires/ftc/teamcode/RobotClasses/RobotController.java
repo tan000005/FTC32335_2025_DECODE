@@ -273,86 +273,93 @@ public class RobotController {
 
     }
 
-    public void strafeLeft(double distance) {
+    public void strafeLeft(double distanceCM) {
 
+        // 1. Reset Encoders
         FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        int targetPosition = (int)((ticksPerWheelRev/12.0)*distance);
+        // 2. Calculate Targets (CM converted to Inches)
+        // We take the CM distance, divide by 2.54 to get Inches,
+        // then multiply by your "Ticks Per Inch" factor (ticksPerWheelRev / 12.0)
+        int moveTicks = (int)((ticksPerWheelRev / 12.0) * (distanceCM / 2.54));
 
-        FrontRightMotor.setTargetPosition(-targetPosition);
-        FrontLeftMotor.setTargetPosition(targetPosition);
-        RearRightMotor.setTargetPosition(targetPosition);
-        RearLeftMotor.setTargetPosition(-targetPosition);
+        // Strafe Left Logic: FL(-), FR(+), RL(+), RR(-)
+        FrontLeftMotor.setTargetPosition(-moveTicks);
+        FrontRightMotor.setTargetPosition(moveTicks);
+        RearLeftMotor.setTargetPosition(moveTicks);
+        RearRightMotor.setTargetPosition(-moveTicks);
 
+        // 3. Set to Run to Position
         FrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RearRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RearLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FrontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RearRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        FrontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        RearLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        // 4. Set Power
+        double speed = 0.6;
+        FrontRightMotor.setPower(speed);
+        FrontLeftMotor.setPower(speed);
+        RearRightMotor.setPower(speed);
+        RearLeftMotor.setPower(speed);
 
-        while (FrontRightMotor.isBusy() || FrontLeftMotor.isBusy() || RearRightMotor.isBusy() || RearLeftMotor.isBusy()) {
-            double power = getPower(targetPosition)*0.6;
-
-            FrontRightMotor.setPower(-power);
-            FrontLeftMotor.setPower(power);
-            RearRightMotor.setPower(-power);
-            RearLeftMotor.setPower(power);
-
+        // 5. Wait for move to complete
+        while (FrontRightMotor.isBusy() && FrontLeftMotor.isBusy() &&
+                RearRightMotor.isBusy() && RearLeftMotor.isBusy()) {
+            // Wait
         }
 
+        // 6. Stop
         FrontRightMotor.setPower(0);
         FrontLeftMotor.setPower(0);
         RearRightMotor.setPower(0);
         RearLeftMotor.setPower(0);
     }
 
-    public void strafeRight(double distance) {
+    public void strafeRight(double distanceCM) {
 
+        // 1. Reset Encoders
         FrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RearLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        int targetPosition = (int)((ticksPerWheelRev/12.0)*distance);
+        // 2. Calculate Targets (CM converted to Inches)
+        int moveTicks = (int)((ticksPerWheelRev / 12.0) * (distanceCM / 2.54));
 
-        FrontRightMotor.setTargetPosition(targetPosition);
-        FrontLeftMotor.setTargetPosition(-targetPosition);
-        RearRightMotor.setTargetPosition(-targetPosition);
-        RearLeftMotor.setTargetPosition(targetPosition);
+        // Strafe Right Logic: FL(+), FR(-), RL(-), RR(+)
+        FrontLeftMotor.setTargetPosition(moveTicks);
+        FrontRightMotor.setTargetPosition(-moveTicks);
+        RearLeftMotor.setTargetPosition(-moveTicks);
+        RearRightMotor.setTargetPosition(moveTicks);
 
+        // 3. Set to Run to Position
         FrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RearRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RearLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        FrontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        RearRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        FrontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        RearLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        // 4. Set Power
+        double speed = 0.6;
+        FrontRightMotor.setPower(speed);
+        FrontLeftMotor.setPower(speed);
+        RearRightMotor.setPower(speed);
+        RearLeftMotor.setPower(speed);
 
-        while (FrontRightMotor.isBusy() || FrontLeftMotor.isBusy() || RearRightMotor.isBusy() || RearLeftMotor.isBusy()) {
-            double power = getPower(targetPosition)*0.6;
-
-            FrontRightMotor.setPower(-power);
-            FrontLeftMotor.setPower(power);
-            RearRightMotor.setPower(-power);
-            RearLeftMotor.setPower(power);
-
+        // 5. Wait for move to complete
+        while (FrontRightMotor.isBusy() && FrontLeftMotor.isBusy() &&
+                RearRightMotor.isBusy() && RearLeftMotor.isBusy()) {
+            // Wait
         }
 
+        // 6. Stop
         FrontRightMotor.setPower(0);
         FrontLeftMotor.setPower(0);
         RearRightMotor.setPower(0);
         RearLeftMotor.setPower(0);
-    }
-    public void turnDegrees(int degrees) {
+    }    public void turnDegrees(int degrees) {
 
         double arc_length = ((double)degrees / 360.0) * turnCircumference;
         int turn_ticks = (int)(arc_length * ticksPerInch);

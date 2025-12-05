@@ -26,7 +26,7 @@ public class AngleAdjustServo {
     public void updatePosition(double range, Telemetry telemetry) {
 
         if (range < 0)                                                               // if no tag is found (range = -1) then set it to default position
-            servo.setServoPosition(Config.defaultShooterServoAngle+angleAdjust); // set to default pos (45 deg) and then add the angle adjustment to it (20 deg)
+            servo.setServoPosition(70); // set to default pos (45 deg) and then add the angle adjustment to it (20 deg)
         else {
 
             telemetry.addLine("Aiming");

@@ -35,15 +35,15 @@ public class Intake {
 
     public void autoShoot() {
         intakeMotor.setPower(-1);
-        sleep(800);
+        sleep(400);
         intakeMotor.setPower(0);
         sleep(1000);
         intakeMotor.setPower(-1);
-        sleep(800);
+        sleep(400);
         intakeMotor.setPower(0);
         sleep(1000);
         intakeMotor.setPower(-1);
-        sleep(800);
+        sleep(400);
         intakeMotor.setPower(0);
         sleep(1000);
     }

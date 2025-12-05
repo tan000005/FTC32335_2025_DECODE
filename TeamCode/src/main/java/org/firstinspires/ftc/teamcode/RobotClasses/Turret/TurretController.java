@@ -29,6 +29,7 @@ public class TurretController {
 
     boolean state = false;
     boolean lastX = false;
+    boolean turretMode = true;
 
     public TurretController(HardwareMap hardwareMap) {
 
@@ -96,6 +97,10 @@ public class TurretController {
             }
         }
 
+        if (gamepad.a) {
+            turretMode =  !turretMode;
+        }
+
         if (gamepad.left_bumper) {
             turnTurretLeft();
         } else if (gamepad.right_bumper) {
@@ -127,7 +132,7 @@ public class TurretController {
 
             MOTOR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            if (gamepad.right_bumper || gamepad.left_bumper) {
+        if (turretMode) {
                 telemetry.addLine("Overidden turret tracking");
             } else {
                 if (xyhv[0] < -Config.TURRET_DEADZONE) {
