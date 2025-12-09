@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RobotClasses.Turret;
 
 import android.telecom.Conference;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
@@ -20,28 +21,51 @@ public class AngleAdjustServo {
         Servo servoName = hardwareMap.get(Servo.class, Config.angleAdjustServoName); // get the servo name and pass the servo name that we want from the config file
         servo = new DefaultServoController(servoName);
 
+        angle = 0;
+
         servo.setServoPosition(0); // set servo position to zero
     }
 
-    public void updatePosition(double range, Telemetry telemetry) {
+    public void updatePosition(double range, Telemetry telemetry, Gamepad gamepad, boolean turretMode) {
 
-        if (range < 0)                                                               // if no tag is found (range = -1) then set it to default position
-            servo.setServoPosition(70); // set to default pos (45 deg) and then add the angle adjustment to it (20 deg)
-        else {
-
-            telemetry.addLine("Aiming");
-
-            telemetry.addData("angle: ", angle);
-
-            angle = 120-((range-40)*2);
-
-            if (range < 38) {
-                servo.setServoPosition(0);
-            } else {
-                servo.setServoPosition((int)(angle));
-                //servo.setServoPosition((int)(angle)*2);
+        if (!turretMode) {
+            if (gamepad.dpad_up) {
+                angle++;
+            } else if (gamepad.dpad_down) {
+                angle--;
             }
 
+            if (angle > 150) { angle = 150; }
+            if (angle < 0) { angle = 0; }
+
+            servo.setServoPosition((int) angle);
+        } else {
+
+            if (range < 0) {
+            }                                    // if no tag is found (range = -1) then set it to default position
+            else {
+
+                telemetry.addLine("Aiming");
+
+                telemetry.addData("angle: ", angle);
+
+                angle = 150 - ((range - 40) * 2);
+
+                if (range < 38) {
+                    servo.setServoPosition(130);
+                } else {
+                    if (angle < 0) {
+                        servo.setServoPosition(0);
+                    } else if (angle > 150) {
+                        servo.setServoPosition(130);
+                    } else {
+                        //servo.setServoPosition(120);
+                        servo.setServoPosition((int) (angle));
+                        //servo.setServoPosition((int)(angle)*2);
+                    }
+                }
+
+            }
         }
 
     }

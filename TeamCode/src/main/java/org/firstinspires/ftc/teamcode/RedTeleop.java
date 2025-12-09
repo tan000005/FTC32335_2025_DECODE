@@ -4,21 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.RobotClasses.ModuleControllers.MG996RController;
 import org.firstinspires.ftc.teamcode.RobotClasses.Others.Intake;
-import org.firstinspires.ftc.teamcode.RobotClasses.Turret.TurretController;
-import org.firstinspires.ftc.teamcode.RobotClasses.VisionProcessing.TagLibrary;
-import org.firstinspires.ftc.teamcode.RobotClasses.VisionProcessing.VisionProcessing;
 import org.firstinspires.ftc.teamcode.RobotClasses.RobotController;
-
+import org.firstinspires.ftc.teamcode.RobotClasses.Turret.TurretController;
+import org.firstinspires.ftc.teamcode.RobotClasses.VisionProcessing.VisionProcessing;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import org.opencv.core.Mat;
-
-@TeleOp(name="Teleop")
-public class teleop extends OpMode {
+@TeleOp(name="RedTeleop")
+public class RedTeleop extends OpMode {
 
     // vision processing related variables
     private AprilTagProcessor aprilTagProcessor;
@@ -56,9 +50,14 @@ public class teleop extends OpMode {
     public void loop() {
 
         visionProcessor.update();
-        turret.update(visionProcessor.getTagDataBySpecificId(20), telemetry, gamepad1);
+        turret.update(visionProcessor.getTagDataBySpecificId(24), telemetry, gamepad1);
         robotController.updatePosition();
         intake.updateIntake(gamepad1);
+        intake.update_message(telemetry);
+
+        if (gamepad1.guide) {
+            return;
+        }
 
     }
 

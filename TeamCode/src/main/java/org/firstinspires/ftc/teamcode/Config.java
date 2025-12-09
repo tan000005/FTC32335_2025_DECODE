@@ -15,7 +15,7 @@ public class Config {
     public static final String webcamName = "Webcam 1";
     public static final double aprilTagSize = 16.0; // Size in cm
 
-    public static final double TURRET_DEADZONE = 0;
+    public static final double TURRET_DEADZONE = 0.1;
 
     public static final double KP = 0.05;
 

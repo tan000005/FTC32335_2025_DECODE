@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.RobotClasses.Others.Intake;
 import org.firstinspires.ftc.teamcode.RobotClasses.RobotController;
 import org.firstinspires.ftc.teamcode.RobotClasses.Turret.TurretController;
 
-@Autonomous(name = "auto3", group = "final")
-public class auto3 extends LinearOpMode {
+@Autonomous(name = "BlueNearGoal", group = "final")
+public class BlueNearGoal extends LinearOpMode {
 
     RobotController robotController;
     TurretController turretController;
@@ -28,7 +28,7 @@ public class auto3 extends LinearOpMode {
 
         waitForStart();
 
-        //turretController.autoShoot(-1);
+        turretController.autoShoot(-0.8);
 
         // backwards
         robotController.moveForward(100);
@@ -37,9 +37,9 @@ public class auto3 extends LinearOpMode {
         //sleep(100);
         intake.autoShoot();
         //sleep(100);
-        robotController.turnTo(-40);
+        robotController.turnTo(30);
         //sleep(100);
-        robotController.strafeRight(13);
+        robotController.strafeLeft(50);
         intake.reverse();
         //sleep(100);
         robotController.moveForward(80);
@@ -47,13 +47,13 @@ public class auto3 extends LinearOpMode {
         robotController.moveBackward(80);
         intake.stop();
         //sleep(100);
-        robotController.turnTo(50);
+        robotController.turnTo(-50);
         //sleep(100);
         intake.autoShoot();
         //sleep(100);
-        robotController.turnTo(-35);
+        robotController.turnTo(35);
         //sleep(100);
-        robotController.strafeRight(55);
+        robotController.strafeLeft(55);
         intake.reverse();
         robotController.moveForward(80);
         /*
