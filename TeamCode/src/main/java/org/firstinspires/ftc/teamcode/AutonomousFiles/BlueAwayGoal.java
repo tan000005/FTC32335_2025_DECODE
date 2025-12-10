@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.AutonomousFiles;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -28,8 +28,27 @@ public class BlueAwayGoal extends LinearOpMode {
 
         waitForStart();
 
-        turretController.autoShoot(-0.8);
+        turretController.autoShoot(-0.83);
 
+        robotController.moveForward(50);
+        robotController.turnTo(40);
+
+        intake.reverse();
+
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+
+        /*
         robotController.strafeRight(80);
         robotController.moveForward(125);
         robotController.turnTo(20);
@@ -56,7 +75,7 @@ public class BlueAwayGoal extends LinearOpMode {
 
         robotController.moveForward(60);
         robotController.moveBackward(60);
-
+        */
     }
 
 }

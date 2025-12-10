@@ -26,6 +26,10 @@ public class AngleAdjustServo {
         servo.setServoPosition(0); // set servo position to zero
     }
 
+    public void updateServoPosition(int position) {
+        servo.setServoPosition(position);
+    }
+
     public void updatePosition(double range, Telemetry telemetry, Gamepad gamepad, boolean turretMode) {
 
         if (!turretMode) {

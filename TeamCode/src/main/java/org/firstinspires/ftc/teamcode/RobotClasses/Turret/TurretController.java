@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.RobotClasses.Turret;
 
+import static android.os.SystemClock.sleep;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,6 +30,7 @@ public class TurretController {
     // db for toggle buttons
     boolean lastB = false;
     boolean lastA = false;
+    boolean lastShot = false;
     // true if turret wants to track, false for manual turret mode
     boolean turretMode = true;
 
@@ -46,6 +49,7 @@ public class TurretController {
         this.angleAdjustServo = new AngleAdjustServo();
 
         this.shootingServo = hardwareMap.get(Servo.class, Config.shootingServoName);
+        this.shootingServo.setPosition(0.35);
 
         angleAdjustServo.init(hardwareMap);
 
@@ -53,12 +57,17 @@ public class TurretController {
 
 
     public void kick() {
-        shootingServo.setPosition(1.0);
+        ElapsedTime x = new ElapsedTime();
+        shootingServo.setPosition(0.25);
+        while (x.seconds() < 0.2) {
+
+        }
+        shootingServo.setPosition(0.6);
         timer.reset();
     }
 
     public void unKick() {
-        shootingServo.setPosition(0.0);
+        shootingServo.setPosition(0.4);
     }
 
     public void shoot() {
@@ -66,10 +75,6 @@ public class TurretController {
     }
 
     public void autoShoot(double speed) { SHOOTING_MOTOR.setPower(speed); }
-
-    public double calculateMotorPower(double range) {
-        return (range/100);
-    }
 
     public void turnTurretRight() { MOTOR.setPower(-0.5); }
 
@@ -83,15 +88,26 @@ public class TurretController {
 
         shoot();
 
-        if (timer.seconds() > 2.0) {
+        if (gamepad.right_bumper && timer.seconds() > 1 && !lastShot) {
+            kick();
+        }
+
+        if (gamepad.left_bumper && timer.seconds() > 1 && !lastShot) {
+            sleep(600);
+            kick();
+        }
+
+        if (timer.seconds() > 1) {
             unKick();
         }
+
+        //shootingServo.setPosition(0.8);
 
         if (gamepad.b && !lastB) {
             if (!state) {
                 telemetry.addLine("Shooting");
                 telemetry.update();
-                shootingMotorSpeed = -0.625;
+                shootingMotorSpeed = -0.85;
                 state = true;
             } else {
                 telemetry.addLine("Not shooting");
@@ -115,6 +131,7 @@ public class TurretController {
 
         lastB = gamepad.b;
         lastA = gamepad.a;
+        lastShot = gamepad.left_bumper || gamepad.right_bumper;
 
     }
 

@@ -18,6 +18,8 @@ public class Intake {
     ElapsedTime elapsedTime;
 
     boolean canShoot = true;
+    boolean state = false;
+
 
     public Intake(HardwareMap hardwareMap) {
 
@@ -46,7 +48,11 @@ public class Intake {
     }
 
     public void reverse() {
-        intakeMotor.setPower(-0.7);
+        intakeMotor.setPower(-0.2);
+    }
+
+    public void verySlow() {
+        intakeMotor.setPower(-0.05);
     }
 
     public void autoShoot() {
@@ -64,21 +70,20 @@ public class Intake {
         sleep(1000);
     }
 
-    public void launch() { intakeMotor.setPower(1); }
+    public void launch() { intakeMotor.setPower(-1); }
 
     public void updateIntake(Gamepad gamepad) {
         if (gamepad.y) {
             start();
-        } else if (gamepad.x || gamepad.left_bumper || gamepad.right_bumper) {
-            if (elapsedTime.seconds() > 2) {
-                elapsedTime.reset();
-            } else {
-                return;
-            }
+        }
+
+        if (gamepad.left_bumper || gamepad.x) {
             reverse();
         } else {
             stop();
         }
+
+
     }
 
 }

@@ -34,6 +34,7 @@ public class VisionProcessing {
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 .setSuppressCalibrationWarnings(true)
                 .build();
+
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hwMap.get(WebcamName.class,"Webcam 1"));
         builder.setStreamFormat(VisionPortal.StreamFormat.MJPEG);

@@ -1,17 +1,19 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.AutonomousFiles;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotClasses.Others.Intake;
 import org.firstinspires.ftc.teamcode.RobotClasses.RobotController;
+import org.firstinspires.ftc.teamcode.RobotClasses.Turret.AngleAdjustServo;
 import org.firstinspires.ftc.teamcode.RobotClasses.Turret.TurretController;
 
-@Autonomous(name = "BlueNearGoal", group = "final")
-public class BlueNearGoal extends LinearOpMode {
+@Autonomous(name = "RedNearGoal", group = "final")
+public class RedNearGoal extends LinearOpMode {
 
     RobotController robotController;
     TurretController turretController;
+    AngleAdjustServo angleAdjustServo;
     Intake intake;
 
     @Override
@@ -24,22 +26,45 @@ public class BlueNearGoal extends LinearOpMode {
 
         intake = new Intake(hardwareMap);
 
+        angleAdjustServo = new AngleAdjustServo();
+        angleAdjustServo.init(hardwareMap);
+
         telemetry.addLine("Robot ready to start");
 
         waitForStart();
 
+        angleAdjustServo.updateServoPosition(150);
+
         turretController.autoShoot(-0.8);
 
+
+        robotController.turnTo(-30);
         // backwards
         robotController.moveForward(100);
         //sleep(100);
         robotController.turnTo(180);
         //sleep(100);
-        intake.autoShoot();
+        intake.verySlow();
+
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+        turretController.kick();
+        sleep(500);
+        turretController.unKick();
+        sleep(2000);
+
+        /*
+
         //sleep(100);
-        robotController.turnTo(30);
+        robotController.turnTo(-30);
         //sleep(100);
-        robotController.strafeLeft(50);
+        robotController.strafeRight(50);
         intake.reverse();
         //sleep(100);
         robotController.moveForward(80);
@@ -47,13 +72,13 @@ public class BlueNearGoal extends LinearOpMode {
         robotController.moveBackward(80);
         intake.stop();
         //sleep(100);
-        robotController.turnTo(-50);
+        robotController.turnTo(50);
         //sleep(100);
         intake.autoShoot();
         //sleep(100);
-        robotController.turnTo(35);
+        robotController.turnTo(-35);
         //sleep(100);
-        robotController.strafeLeft(55);
+        robotController.strafeRight(55);
         intake.reverse();
         robotController.moveForward(80);
         /*

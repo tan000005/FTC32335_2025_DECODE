@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.AutonomousFiles;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -28,7 +28,7 @@ public class RedAwayGoal extends LinearOpMode {
 
         waitForStart();
 
-        turretController.autoShoot(-0.8);
+        turretController.autoShoot(-0.83);
 
         robotController.strafeRight(100);
         robotController.moveForward(150);

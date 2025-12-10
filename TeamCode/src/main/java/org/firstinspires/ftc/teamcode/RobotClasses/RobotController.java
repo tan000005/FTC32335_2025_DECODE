@@ -35,16 +35,6 @@ public class RobotController {
     private int ticksPerWheelRev;
     private int ticksPerInch;
     private double turnCircumference;
-    private double maxSpeed = 0.7;
-    private double lastHeading = 0;
-    private  double globalAngle = 0;
-    private Orientation angles;
-
-    // --- Controller Constants (you will need to tune these) ---
-    final double P_GAIN = 0.02;      // How fast to react
-    final double HEADING_TOLERANCE = 1.0; // How close is "close enough"
-    final double MIN_POWER = 0.15;   // Minimum power to overcome friction
-    final double MAX_POWER = 0.8;    // Maximum power to apply
 
     public void init(HardwareMap hardwareMap, Gamepad gamepd) {
 
